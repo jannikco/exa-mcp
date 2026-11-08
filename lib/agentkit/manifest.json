@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-exa",
+      "description": "Connect AI agents to Exa using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-exa/SKILL.md": "127869ce5b362b48328921a0df96b9710edb733011a12fe364532bdac6cd2854"
+  }
+}
