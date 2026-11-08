@@ -1,0 +1,116 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Exa selected operations",
+    "version": "0.1.0",
+    "description": "Reviewed local connector bindings for manual API import. No provider credentials are included; authentication and hosted execution require separate configuration and tests."
+  },
+  "servers": [
+    {
+      "url": "https://api.exa.ai"
+    }
+  ],
+  "paths": {
+    "/search": {
+      "post": {
+        "operationId": "search_web",
+        "summary": "Find relevant source URLs with a bounded number of results.",
+        "parameters": [],
+        "x-pipmcp-read-only": true,
+        "responses": {
+          "200": {
+            "description": "Provider response; inspect provider documentation for result fields."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                  },
+                  "numResults": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 20
+                  }
+                },
+                "required": [
+                  "query",
+                  "numResults"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contents": {
+      "post": {
+        "operationId": "get_contents",
+        "summary": "Retrieve text for selected URLs, capped at 5000 characters per page; inspect provider per-result statuses.",
+        "parameters": [],
+        "x-pipmcp-read-only": true,
+        "responses": {
+          "200": {
+            "description": "Provider response; inspect provider documentation for result fields."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048,
+                      "pattern": "^https://[^\\s]+$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 10
+                  },
+                  "text": {
+                    "const": {
+                      "maxCharacters": 5000
+                    },
+                    "default": {
+                      "maxCharacters": 5000
+                    }
+                  }
+                },
+                "required": [
+                  "urls",
+                  "text"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "providerAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  },
+  "security": [
+    {
+      "providerAuth": []
+    }
+  ]
+}
